@@ -2,7 +2,8 @@ const express = require('express')
 const morgan = require('morgan')
 const { db, Page, User } = require('./models');
 const wikiRouter = require('./routes/wiki.js')
-const usersRouter = require('./routes/users.js')
+const usersRouter = require('./routes/users.js');
+const wikiPage = require('../views/wikipage.js');
 
 
 const app = express()

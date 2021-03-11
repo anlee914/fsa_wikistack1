@@ -30,7 +30,7 @@ module.exports = () => layout(html`
     <div class="form-group">
       <label for="title" class="col-sm-2 control-label">Page Content</label>
       <div class="col-sm-10">
-        <input id="page-content" name="page-content" type="text" class="form-control"/>
+        <input id="pagecontent" name="pagecontent" type="text" class="form-control"/>
       </div>
     </div>
 
