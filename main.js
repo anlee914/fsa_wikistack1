@@ -3,7 +3,7 @@ const morgan = require('morgan')
 const { db, Page, User } = require('./models');
 const wikiRouter = require('./routes/wiki.js')
 const usersRouter = require('./routes/users.js');
-const wikiPage = require('../views/wikipage.js');
+//const wikiPage = require('../views/wikipage.js');
 
 
 const app = express()
@@ -26,7 +26,7 @@ app.get('/', (req, res, next) => {
 })
 
 const connect = async () => {
-  await db.sync()
+  await db.sync({force: true})
 }
 
 connect()

@@ -11,7 +11,10 @@ const User = db.define('user', {
   email: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
+    validate: {
+      isEmail: true
+    }
   }
 })
 
@@ -30,19 +33,11 @@ const Page = db.define('page', {
     },
     status: {
       type: Sequelize.ENUM('open', 'closed'),
-      defaultValue: 'open'
+      //defaultValue: 'open'
     }
 })
 
-// function generateSlug(title){
-//   return title.replace(/\s+/g, '_').replace(/\W/g, '');
-// }
-
-Page.beforeValidate((page) => {
-  if(!page.slug){
-    page.slug = page.title.replace(/\s+/g, '_').replace(/\W/g, '');
-  }
-})
+Page.belongsTo(User, { as: 'author' });
 
 module.exports = {
   db, Page, User

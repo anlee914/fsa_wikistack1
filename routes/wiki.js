@@ -1,15 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const addPage = require('../views/addPage')
+const { Users, User } = require("../models");
 const { Page } = require("../models");
 const wikipage = require('../views/wikipage');
+const mainpage = require('../views/main')
 
 
 module.exports = router
 
 //retrieve all wiki pages
-router.get('/', (req, res, next) => {
-  res.send('get test')
+router.get('/', async (req, res, next) => {
+  const allPages = await Page.findAll()
+  res.send(mainpage(allPages))
 })
 
 //submit a new page to the DB
@@ -20,6 +23,17 @@ router.post('/', async (req, res, next) => {
   // add definitions for `title` and `content`
 
   try {
+    const userCheck = await User.findOrCreate({where: {name: req.body.authorname}})
+    //1 if newly created, 0 if an existing match was found
+    if(userCheck[1])
+
+    const user = await Page.create({
+      name: req.body.authorname,
+      email: req.body.authoremail
+    })
+
+
+
     const page = await Page.create({
       title: req.body.title,
       content: req.body.pagecontent
@@ -42,9 +56,8 @@ router.get('/:slug', async (req, res, next) => {
   const findPage = await Page.findOne({
     where: {slug: req.params.slug}
 });
-  // res.send(wikipage(findPage, 'chiara'));
-  res.json(findPage);
+  res.send(wikipage(findPage, 'chiara'));
+  //res.json(findPage);
   }
   catch(err) {next(error)}
 });
- 
